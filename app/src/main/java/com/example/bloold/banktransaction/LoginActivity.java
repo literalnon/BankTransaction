@@ -14,6 +14,7 @@ import android.view.View.OnClickListener;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import static com.example.bloold.banktransaction.LoginController.userName;
 import static com.example.bloold.banktransaction.LoginController.userNum;
@@ -44,6 +45,10 @@ public class LoginActivity extends AppCompatActivity {
         mEmailSignInButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
+                if (mCardNum.getText().toString().length() != 16) {
+                    Toast.makeText(LoginActivity.this, "неправильно введен номер карты", Toast.LENGTH_LONG).show();
+                    return;
+                }
                 //получение курсора в бд
                 SQLiteDatabase database = dbHelper.getWritableDatabase();
                 Cursor cursor = database.query(SqlOpenHelper.TABLE_CONTACTS, null, null,
@@ -54,8 +59,8 @@ public class LoginActivity extends AppCompatActivity {
                 while (cursor.moveToNext()) {
                     if (TextUtils.equals(cursor.getString(cursor.getColumnIndex(SqlOpenHelper.KEY_NUM)), mCardNum.getText().toString())
                             && TextUtils.equals(cursor.getString(cursor.getColumnIndex(SqlOpenHelper.KEY_NAME)), mName.getText().toString())) {
-                        cursor.close();
                         putCredentials(cursor.getInt(cursor.getColumnIndex(SqlOpenHelper.KEY_SUM)));
+                        cursor.close();
                     }
                 }
 

@@ -37,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
 //бд
         dbHelper = new SqlOpenHelper(this);
 
-        if (TextUtils.equals(LoginController.userName, "admin")) {
+        if (TextUtils.equals(LoginController.userName, "admin") && TextUtils.equals(LoginController.userNum, "0000000000000000")) {
             //вешаем слушателя на кнопку
             btnTable.setOnClickListener(new View.OnClickListener() {
                 @Override
